@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   pre-commit:
-    uses: AzAvalon/workflows/.github/workflows/_pre_commit.yml@0bd1a4aaab30979b0e45b4a2340674575ea4cc90 # 0.1.0
+    uses: AzAvalon/workflows/.github/workflows/_pre_commit.yml@3480b6c8aefcb3d83ef93c72c717c691a44c16f6 # 0.1.1
     permissions:
       contents: read
     with:
