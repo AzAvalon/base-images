@@ -1,0 +1,151 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "schedule": [
+    "* * * * 0,6"
+  ],
+  "pre-commit": {
+    "enabled": true
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^dockerfiles/rust-.*\\.Dockerfile$/"
+      ],
+      "matchStrings": [
+        "RUST_VERSION=(?<currentValue>[^\\s\\\\]+)"
+      ],
+      "depNameTemplate": "rust-lang/rust",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v?(?<version>.*)$",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^dockerfiles/rust-.*\\.Dockerfile$/"
+      ],
+      "matchStrings": [
+        "cargo-binstall/v(?<currentValue>[^/]+)/install-from-binstall-release\\.sh"
+      ],
+      "depNameTemplate": "cargo-bins/cargo-binstall",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v?(?<version>.*)$",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^dockerfiles/rust-.*\\.Dockerfile$/"
+      ],
+      "matchStrings": [
+        "(?<depName>[a-z0-9][a-z0-9-]*)@(?<currentValue>[0-9][^\\s\\\\]*)"
+      ],
+      "datasourceTemplate": "crate",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "description": "crane (go-containerregistry) release in the download URL",
+      "managerFilePatterns": [
+        "/^dockerfiles/rust-.*\\.Dockerfile$/"
+      ],
+      "matchStrings": [
+        "go-containerregistry/releases/download/(?<currentValue>v[^/]+)/"
+      ],
+      "depNameTemplate": "google/go-containerregistry",
+      "datasourceTemplate": "github-releases"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "addLabels": [
+        "docker"
+      ]
+    },
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "addLabels": [
+        "github_actions"
+      ]
+    },
+    {
+      "matchManagers": [
+        "pre-commit"
+      ],
+      "addLabels": [
+        "pre-commit"
+      ],
+      "schedule": "every 1 months on the first day of the month"
+    },
+    {
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "groupName": "dockerfile"
+    },
+    {
+      "matchManagers": [
+        "pre-commit"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "pre-commit"
+    },
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "github-actions"
+    },
+    {
+      "description": "Automerge Rust dependency updates managed via custom regex.",
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchDatasources": [
+        "crate",
+        "github-releases"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "addLabels": [
+        "rust",
+        "automerge"
+      ],
+      "groupName": "rust dependencies (minor/patch)",
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true,
+      "automergeType": "pr"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  workflow_dispatch: # only for release on develop branch
+  push:
+    branches:
+      - main
+      - "[0-9]+.[0-9]+.x"
+      - "[0-9]+.x"
+
+# Only allow one release workflow to execute at a time, since each release
+# workflow uses shared resources (git tags, package registries)
+concurrency:
+  group: ${{ github.workflow }}
+
+permissions:
+  contents: read
+
+# The GitHub release is created with the App token, so it triggers the
+# `release: published` event that builds and pushes the images.
+jobs:
+  release:
+    uses: AzAvalon/workflows/.github/workflows/_release.yml@0bd1a4aaab30979b0e45b4a2340674575ea4cc90 # 0.1.0
+    permissions:
+      contents: read
+    with:
+      github-client-id: ${{ vars.CI_APP_CLIENT_ID }}
+    secrets:
+      github-private-key: ${{ secrets.CI_APP_PRIVATE_KEY }}

@@ -1,0 +1,41 @@
+name: Build and push
+
+on:
+  release:
+    types: [published]
+  pull_request:
+
+# Limit to 1 concurrent run per workflow and branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-push:
+    strategy:
+      fail-fast: false
+      matrix:
+        filename: ["rust-debian"]
+
+    uses: AzAvalon/workflows/.github/workflows/_build_push_docker.yml@0bd1a4aaab30979b0e45b4a2340674575ea4cc90 # 0.1.0
+    permissions:
+      contents: read
+      id-token: write # cosign keyless signing
+    with:
+      service-name: base
+      docker-tag: ${{ github.event.release.tag_name || format('pr-{0}-{1}', github.event.pull_request.number, github.event.pull_request.head.sha) }}-${{ matrix.filename }}
+      docker-bake-file: docker-bake.hcl
+      docker-bake-targets: default
+      dockerfile: ${{ matrix.filename }}.Dockerfile
+      bake-context: ./dockerfiles
+      docker-platforms: linux/amd64,linux/arm64
+      # Fork PRs get no secrets: build only.
+      docker-push: ${{ github.event_name == 'release' || github.event.pull_request.head.repo.full_name == github.repository }}
+      github-client-id: ${{ vars.CI_APP_CLIENT_ID }}
+      dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
+    secrets:
+      github-private-key: ${{ secrets.CI_APP_PRIVATE_KEY }}
+      dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
