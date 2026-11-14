@@ -26,16 +26,30 @@
     },
     {
       "customType": "regex",
+      "description": "rustup-init release downloaded in the dev stage",
       "managerFilePatterns": [
         "/^dockerfiles/rust-.*\\.Dockerfile$/"
       ],
       "matchStrings": [
-        "cargo-binstall/v(?<currentValue>[^/]+)/install-from-binstall-release\\.sh"
+        "RUSTUP_VERSION=(?<currentValue>[^\\s\\\\]+)"
+      ],
+      "depNameTemplate": "rust-lang/rustup",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^dockerfiles/rust-.*\\.Dockerfile$/"
+      ],
+      "matchStrings": [
+        "BINSTALL_VERSION=(?<currentValue>[^\\s\\\\]+)"
       ],
       "depNameTemplate": "cargo-bins/cargo-binstall",
       "datasourceTemplate": "github-releases",
       "extractVersionTemplate": "^v?(?<version>.*)$",
-      "versioningTemplate": "semver"
+      "versioningTemplate": "semver",
+      "description": "cargo-binstall release downloaded in the dev stage"
     },
     {
       "customType": "regex",
@@ -47,18 +61,6 @@
       ],
       "datasourceTemplate": "crate",
       "versioningTemplate": "semver"
-    },
-    {
-      "customType": "regex",
-      "description": "crane (go-containerregistry) release in the download URL",
-      "managerFilePatterns": [
-        "/^dockerfiles/rust-.*\\.Dockerfile$/"
-      ],
-      "matchStrings": [
-        "go-containerregistry/releases/download/(?<currentValue>v[^/]+)/"
-      ],
-      "depNameTemplate": "google/go-containerregistry",
-      "datasourceTemplate": "github-releases"
     }
   ],
   "packageRules": [
@@ -146,6 +148,18 @@
       ],
       "automerge": true,
       "automergeType": "pr"
+    },
+    {
+      "description": "rustup-init and cargo-binstall are checked against sha256 sums in the Dockerfile that Renovate cannot update: no automerge, the sums are bumped by hand in the PR",
+      "matchPackageNames": [
+        "rust-lang/rustup",
+        "cargo-bins/cargo-binstall"
+      ],
+      "groupName": "pinned installers",
+      "automerge": false,
+      "prBodyNotes": [
+        "Update the matching `*_SHA256_*` build args in `dockerfiles/rust-debian.Dockerfile` before merging; the build fails until they match."
+      ]
     }
   ]
 }
