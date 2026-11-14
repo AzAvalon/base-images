@@ -37,7 +37,7 @@ ENV RUSTUP_HOME=/usr/local/rustup \
     UV_INSTALL_DIR=/usr/local/cargo \
     GITHUB_WORKDIR=/__w \
     PATH=/usr/local/cargo/bin:$PATH \
-    RUST_VERSION=1.99.1
+    RUST_VERSION=1.100.0
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -55,12 +55,12 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain "$RUST_VERSION" --no-modify-path --profile minimal && \
     # Rust packages
     rustup component add llvm-tools-preview && \
-    curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/v1.21.1/install-from-binstall-release.sh | bash && \
-    cargo binstall cargo-llvm-cov@0.8.7 cargo-nextest@0.9.143 cargo-sweep@0.8.0 maturin@1.14.1 --no-confirm --locked && \
+    curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/v1.27.0/install-from-binstall-release.sh | bash && \
+    cargo binstall cargo-llvm-cov@0.9.1 cargo-nextest@0.9.152 cargo-sweep@0.8.0 maturin@1.16.0 --no-confirm --locked && \
     # Install crane (static, daemon-less registry client, for pulling/exporting
     # images in CI without a docker daemon)
     CRANE_ARCH="$(case "$TARGETARCH" in amd64) echo x86_64 ;; arm64) echo arm64 ;; esac)" && \
-    curl -sL "https://github.com/google/go-containerregistry/releases/download/v0.20.2/go-containerregistry_Linux_${CRANE_ARCH}.tar.gz" | tar -xz -C "$CARGO_HOME/bin" crane && \
+    curl -sL "https://github.com/google/go-containerregistry/releases/download/v0.22.1/go-containerregistry_Linux_${CRANE_ARCH}.tar.gz" | tar -xz -C "$CARGO_HOME/bin" crane && \
     # Clean
     apt-get remove -y curl && \
     apt-get autoremove -y && \
