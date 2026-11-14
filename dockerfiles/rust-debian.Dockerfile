@@ -1,8 +1,8 @@
-# syntax=docker/dockerfile:1.24
+# syntax=docker/dockerfile:1.29
 
 
 # debian:trixie-slim
-FROM debian:trixie-slim@sha256:b6e2a152f22a40ff69d92cb397223c906017e1391a73c952b588e51af8883bf8 AS base
+FROM debian:trixie-slim@sha256:a72b4433de1cf7d6bae0c4cee74d0547f58601a643b3375f070c51600d63b6b2 AS base
 
 ARG TARGETARCH
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
