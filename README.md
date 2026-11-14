@@ -24,7 +24,8 @@ come from [AzAvalon/workflows](https://github.com/AzAvalon/workflows):
   tagged `pr-<number>-<sha>-<file>`) and on every release.
 - `release.yml` runs semantic-release on `main`; the GitHub release it
   creates triggers the build of the release images.
-- `ci.yml` runs the pre-commit hooks and SonarCloud.
+- `ci.yml` runs the pre-commit hooks. SonarCloud analyses the repository
+  on its own (automatic analysis), with no CI job.
 
 Renovate updates the base image digests, the Rust version, the cargo
 tools, crane, the actions and the workflow refs.
@@ -35,6 +36,5 @@ tools, crane, the actions and the workflow refs.
   GitHub App used by all workflows (see AzAvalon/workflows).
 - Variable `DOCKERHUB_USERNAME` and secret `DOCKERHUB_TOKEN`: push to
   Docker Hub.
-- Secret `SONAR_TOKEN`: SonarCloud.
 
 All of them are set once at AzAvalon organization level.
