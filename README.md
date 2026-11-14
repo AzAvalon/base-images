@@ -1,5 +1,10 @@
 # base-images
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=AzAvalon_base-images2&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=AzAvalon_base-images2)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=AzAvalon_base-images2&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=AzAvalon_base-images2)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=AzAvalon_base-images2&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=AzAvalon_base-images2)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=AzAvalon_base-images2&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=AzAvalon_base-images2)
+
 Base images for Rust projects, built for `linux/amd64` and `linux/arm64`
 and pushed to Docker Hub as `docker.io/hichamaz/base`.
 
