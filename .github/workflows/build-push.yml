@@ -20,7 +20,7 @@ jobs:
       matrix:
         filename: ["rust-debian"]
 
-    uses: AzAvalon/workflows/.github/workflows/_build_push_docker.yml@0bd1a4aaab30979b0e45b4a2340674575ea4cc90 # 0.1.0
+    uses: AzAvalon/workflows/.github/workflows/_build_push_docker.yml@3480b6c8aefcb3d83ef93c72c717c691a44c16f6 # 0.1.1
     permissions:
       contents: read
       id-token: write # cosign keyless signing
