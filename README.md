@@ -6,7 +6,7 @@
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=AzAvalon_base-images2&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=AzAvalon_base-images2)
 
 Base images for Rust projects, built for `linux/amd64` and `linux/arm64`
-and pushed to Docker Hub as `docker.io/hichamaz/base`.
+and pushed to the GitHub Container Registry as `ghcr.io/azavalon/base`.
 
 | Dockerfile                           | Image tags                                           |
 | ------------------------------------ | ---------------------------------------------------- |
@@ -26,7 +26,9 @@ It starts from `debian:trixie-slim`.
 come from [AzAvalon/workflows](https://github.com/AzAvalon/workflows):
 
 - `build-push.yml` builds the Dockerfile on every pull request (images
-  tagged `pr-<number>-<sha>-<file>`) and on every release.
+  tagged `pr-<number>.<sha>-<file>`) and on every release.
+- `pr-cleanup.yml` deletes a pull request's `pr-<number>.*` images once
+  it closes, merged or not.
 - `release.yml` runs semantic-release on `main`; the GitHub release it
   creates triggers the build of the release images.
 - `ci.yml` runs the pre-commit hooks. SonarCloud analyses the repository
@@ -39,7 +41,6 @@ tools, crane, the actions and the workflow refs.
 
 - Variable `CI_APP_CLIENT_ID` and secret `CI_APP_PRIVATE_KEY`: the
   GitHub App used by all workflows (see AzAvalon/workflows).
-- Variable `DOCKERHUB_USERNAME` and secret `DOCKERHUB_TOKEN`: push to
-  Docker Hub.
 
-All of them are set once at AzAvalon organization level.
+Both are set once at AzAvalon organization level. Images are pushed with
+the job's `GITHUB_TOKEN`, so no registry secret is needed.

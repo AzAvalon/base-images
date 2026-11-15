@@ -7,7 +7,7 @@ variable "DOCKERFILE" {
 }
 
 variable "DOCKER_IMAGE" {
-  default = "docker.io/hichamaz/base"
+  default = "ghcr.io/azavalon/base"
 }
 
 variable "DOCKER_TAG_PRIMARY" {
