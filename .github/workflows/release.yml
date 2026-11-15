@@ -20,7 +20,7 @@ permissions:
 # `release: published` event that builds and pushes the images.
 jobs:
   release:
-    uses: AzAvalon/workflows/.github/workflows/_release.yml@e78a19badbb56ee16d21e47f3f8cdec81410d8e8 # 0.1.2
+    uses: AzAvalon/workflows/.github/workflows/_release.yml@459f938778be2a1d56a5cf963a5bbc715bd78c23 # 0.2.0
     permissions:
       contents: read
     with:

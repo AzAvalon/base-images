@@ -20,13 +20,14 @@ jobs:
       matrix:
         filename: ["rust-debian"]
 
-    uses: AzAvalon/workflows/.github/workflows/_build_push_docker.yml@e78a19badbb56ee16d21e47f3f8cdec81410d8e8 # 0.1.2
+    uses: AzAvalon/workflows/.github/workflows/_build_push_docker.yml@459f938778be2a1d56a5cf963a5bbc715bd78c23 # 0.2.0
     permissions:
       contents: read
       id-token: write # cosign keyless signing
+      packages: write # push to ghcr.io
     with:
       service-name: base
-      docker-tag: ${{ github.event.release.tag_name || format('pr-{0}-{1}', github.event.pull_request.number, github.event.pull_request.head.sha) }}-${{ matrix.filename }}
+      docker-tag: ${{ github.event.release.tag_name || format('pr-{0}.{1}', github.event.pull_request.number, github.event.pull_request.head.sha) }}-${{ matrix.filename }}
       docker-bake-file: docker-bake.hcl
       docker-bake-targets: default
       dockerfile: ${{ matrix.filename }}.Dockerfile
@@ -35,7 +36,5 @@ jobs:
       # Fork PRs get no secrets: build only.
       docker-push: ${{ github.event_name == 'release' || github.event.pull_request.head.repo.full_name == github.repository }}
       github-client-id: ${{ vars.CI_APP_CLIENT_ID }}
-      dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
     secrets:
       github-private-key: ${{ secrets.CI_APP_PRIVATE_KEY }}
-      dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
