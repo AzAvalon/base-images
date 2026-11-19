@@ -5,20 +5,28 @@
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=AzAvalon_base-images2&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=AzAvalon_base-images2)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=AzAvalon_base-images2&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=AzAvalon_base-images2)
 
-Base images for Rust projects, built for `linux/amd64` and `linux/arm64`
-and pushed to the GitHub Container Registry as `ghcr.io/azavalon/base`.
+Base images for Rust and Python projects, built for `linux/amd64` and
+`linux/arm64` and pushed to the GitHub Container Registry as
+`ghcr.io/azavalon/base`.
 
-| Dockerfile                           | Image tags                                           |
-| ------------------------------------ | ---------------------------------------------------- |
-| `dockerfiles/rust-debian.Dockerfile` | `<version>-rust-debian`, `<version>-rust-debian-dev` |
+| Dockerfile                                 | Image tags                                                       |
+| ------------------------------------------ | ---------------------------------------------------------------- |
+| `dockerfiles/rust-debian.Dockerfile`       | `<version>-rust-debian`, `<version>-rust-debian-dev`             |
+| `dockerfiles/python3.14-debian.Dockerfile` | `<version>-python3.14-debian`, `<version>-python3.14-debian-dev` |
 
-It starts from `debian:trixie-slim`.
+Each Dockerfile has two stages:
 
 - The plain tag (`base` stage) is the runtime image: CA certificates and
   an `app` user (uid 1001).
-- The `-dev` tag (`dev` stage) is the build image: the Rust toolchain,
-  clang, cargo-llvm-cov, cargo-nextest, cargo-sweep, uv, gh and crane.
-  It runs as `app`.
+- The `-dev` tag (`dev` stage) is the build image. It runs as `app`.
+
+`rust-debian` starts from `debian:trixie-slim`. Its build image adds the
+Rust toolchain, clang, cargo-llvm-cov, cargo-nextest, cargo-sweep, uv, gh
+and crane.
+
+`python3.14-debian` starts from `python:3.14-slim-trixie`. Its build image
+adds build-essential, pkg-config, git, git-lfs, jq, curl, unzip,
+gettext, the AWS CLI, uv and crane.
 
 ## How it is built
 
@@ -35,7 +43,7 @@ come from [AzAvalon/workflows](https://github.com/AzAvalon/workflows):
   on its own (automatic analysis), with no CI job.
 
 Renovate updates the base image digests, the Rust version, the cargo
-tools, crane, the actions and the workflow refs.
+tools, the Python packages, uv, crane, the actions and the workflow refs.
 
 ## Repository settings
 
