@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        filename: ["rust-debian"]
+        filename: ["rust-debian", "python3.14-debian"]
 
     uses: AzAvalon/workflows/.github/workflows/_build_push_docker.yml@459f938778be2a1d56a5cf963a5bbc715bd78c23 # 0.2.0
     permissions:

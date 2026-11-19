@@ -61,6 +61,18 @@
       ],
       "datasourceTemplate": "crate",
       "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "description": "Python packages installed with uv pip in the dev stage",
+      "managerFilePatterns": [
+        "/^dockerfiles/python.*\\.Dockerfile$/"
+      ],
+      "matchStrings": [
+        "(?<depName>[a-zA-Z0-9][a-zA-Z0-9._-]*)==(?<currentValue>[^\\s\\\\]+)"
+      ],
+      "datasourceTemplate": "pypi",
+      "versioningTemplate": "pep440"
     }
   ],
   "packageRules": [
