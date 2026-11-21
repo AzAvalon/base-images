@@ -9,7 +9,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update -qq && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
-    ca-certificates=20250419 && \
+    ca-certificates=20250419* && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/*
