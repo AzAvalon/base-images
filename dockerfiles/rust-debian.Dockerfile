@@ -82,7 +82,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
       "https://github.com/cargo-bins/cargo-binstall/releases/download/v${BINSTALL_VERSION}/cargo-binstall-${arch}-unknown-linux-musl.tgz" && \
     echo "${binstall_sha}  /tmp/cargo-binstall.tgz" | sha256sum -c - && \
     tar -xzf /tmp/cargo-binstall.tgz -C "$CARGO_HOME/bin" cargo-binstall && \
-    cargo binstall cargo-llvm-cov@0.9.1 cargo-nextest@0.9.152 cargo-sweep@0.8.0 maturin@1.16.0 --no-confirm --locked && \
+    cargo binstall cargo-llvm-cov@0.9.2 cargo-nextest@0.9.152 cargo-sweep@0.8.0 maturin@1.16.0 --no-confirm --locked && \
     # Clean
     apt-get remove -y curl && \
     apt-get autoremove -y && \
