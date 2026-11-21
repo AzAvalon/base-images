@@ -24,7 +24,7 @@ Each Dockerfile has two stages:
 Rust toolchain, clang, cargo-llvm-cov, cargo-nextest, cargo-sweep, uv, gh
 and crane.
 
-`python3.14-debian` starts from `python:3.14-slim-trixie`. Its build image
+`python3.14-debian` starts from `python:3.15-slim-trixie`. Its build image
 adds build-essential, pkg-config, git, git-lfs, jq, curl, unzip,
 gettext, the AWS CLI, uv and crane.
 
